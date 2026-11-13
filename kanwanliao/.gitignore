@@ -1,0 +1,24 @@
+# Local PHP runtime (portable, downloaded for development only)
+.runtime/
+
+# Local configuration and credentials — never commit
+.env
+.env.*
+!.env.example
+
+# Runtime data
+storage/logs/*
+storage/cache/*
+storage/sessions/*
+!storage/logs/.gitkeep
+!storage/cache/.gitkeep
+!storage/sessions/.gitkeep
+
+# Temp / backup artifacts
+*.log
+*.bak
+*.tmp
+
+# Backups contain user data and password hashes — never commit
+storage/backups/
+*.sql.gz

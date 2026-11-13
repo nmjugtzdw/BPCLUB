@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="看完聊：电影和电视剧讨论论坛的交互原型。">
+  <title>看完聊 · 看完一部，聊聊感受</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要内容</a>
+  <header class="header"><div class="container header-inner">
+    <a class="brand" href="./" aria-label="看完聊首页"><span class="brand-mark" aria-hidden="true">···</span>看完聊</a>
+    <nav aria-label="主导航"><a class="active" href="./" aria-current="page">首页</a><a href="#topics">话题</a><a href="#about">社区介绍</a></nav>
+    <span class="header-note">首页原型</span>
+  </div></header>
+  <div class="demo">演示原型 · 以下作品、用户和讨论均为虚构示例，不提供真实账号及发布功能</div>
+  <div class="container layout">
+    <main id="main">
+      <section class="intro"><div><p class="eyebrow">看完一部，聊聊感受</p><h1>最近大家在聊</h1><p class="muted">不必是专业影评，一句真实感受也值得分享。</p></div><span class="coming">发布功能筹备中</span></section>
+      <section class="panel" aria-labelledby="list-title">
+        <div class="toolbar"><h2 id="list-title">讨论列表</h2><label class="search-label" for="search">搜索示例话题</label><input id="search" type="search" placeholder="搜索标题或作品" autocomplete="off"></div>
+        <div class="filters" aria-label="话题分类">
+          <button type="button" class="selected" data-filter="全部" aria-pressed="true">全部</button><button type="button" data-filter="电影" aria-pressed="false">电影</button><button type="button" data-filter="电视剧" aria-pressed="false">电视剧</button><button type="button" data-filter="求推荐" aria-pressed="false">求推荐</button><button type="button" data-filter="闲聊" aria-pressed="false">闲聊</button>
+        </div>
+        <div id="topics" class="list">
+          <article class="thread" data-category="电视剧" data-search="风起小城 完结 感受 电视剧"><span class="tag">电视剧</span><div><h3><a href="thread.html">《风起小城》完结了，大家觉得结尾怎么样？</a></h3><p class="meta">虚构示例 · 剧透内容已折叠</p></div><span class="count">示例讨论</span></article>
+          <article class="thread" data-category="电影" data-search="雨后的车站 电影 感受"><span class="tag">电影</span><div><h3>《雨后的车站》：一部适合周末慢慢看的电影</h3><p class="meta">虚构示例 · 作品与评价均为演示</p></div><span class="count">示例话题</span></article>
+          <article class="thread" data-category="求推荐" data-search="推荐 悬疑 剧荒"><span class="tag">求推荐</span><div><h3>最近剧荒，想找一部节奏轻快的悬疑剧</h3><p class="meta">虚构示例 · 求推荐</p></div><span class="count">示例话题</span></article>
+          <article class="thread" data-category="闲聊" data-search="闲聊 重看 电影"><span class="tag">闲聊</span><div><h3>有没有一部你看过很多次的电影？</h3><p class="meta">虚构示例 · 看完聊聊</p></div><span class="count">示例话题</span></article>
+          <article class="thread" data-category="电视剧" data-search="长夜灯火 电视剧 角色"><span class="tag">电视剧</span><div><h3>《长夜灯火》里哪个角色最让你印象深刻？</h3><p class="meta">虚构示例 · 欢迎理性交流</p></div><span class="count">示例话题</span></article>
+        </div>
+        <p id="empty" class="empty" hidden>没有找到相关示例话题，换个关键词试试。</p>
+        <p id="result" class="list-foot" role="status" aria-live="polite">共 5 条示例话题</p>
+      </section>
+    </main>
+    <aside id="about" aria-label="社区信息"><section class="panel side"><h2>欢迎来到看完聊</h2><p>一部电影，一场讨论。这里想留给每个人说出观影感受的空间。</p><p class="muted">当前为交互原型，讨论内容均为示例。</p></section><section class="panel side"><h2>聊得开心，也要注意</h2><ul><li>尊重不同观点</li><li>讨论剧情时先提醒剧透</li><li>分享真实观影感受</li></ul></section><section class="panel side"><h2>近期话题</h2><p>你更喜欢电影还是电视剧？</p><p>看到第几集会决定弃剧？</p></section></aside>
+  </div>
+  <footer class="footer container">看完聊 · 看完一部，聊聊感受 <span>演示原型，不提供影视播放或资源下载</span></footer>
+</body>
+</html>
