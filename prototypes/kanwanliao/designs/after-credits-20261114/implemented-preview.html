@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="看完聊：电影和电视剧讨论论坛。">
+  <meta property="og:title" content="最近大家在聊">
+  <meta property="og:description" content="看完聊：电影和电视剧讨论论坛。">
+  <title>最近大家在聊 · 看完聊</title>
+  <style>:root {
+  color-scheme: light;
+  --bg: #f6f4ef; --surface: #fcfbf8; --text: #242724; --muted: #656760;
+  --border: #cecac0; --accent: #2454d6; --on-accent: #fff;
+  --accent-soft: #eaeef8; --tag-bg: #eeece5; --notice-bg: #f2eee2; --notice-border: #b8b2a2;
+  --editorial: Georgia, "Noto Serif SC", "Songti SC", SimSun, serif;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #1c1e1c; --surface: #232623; --text: #eeeee7; --muted: #b5b7ad;
+  --border: #4c5047; --accent: #a4bcff; --on-accent: #17213d;
+  --accent-soft: #29344c; --tag-bg: #2b2e29; --notice-bg: #292d25; --notice-border: #686f60;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+a { color: var(--accent); text-underline-offset: 4px; }
+a:hover { text-decoration: underline; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+h1, h2, h3, p { overflow-wrap: anywhere; }
+h1 { font-size: 28px; line-height: 1.4; margin: 0 0 16px; }
+h2 { font-size: 20px; }
+.container { width: min(100%, 1280px); margin-inline: auto; padding-inline: 28px; }
+.visually-hidden, .skip-link:not(:focus) { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.skip-link:focus { position: absolute; top: 10px; left: 10px; z-index: 20; background: var(--surface); padding: 10px; }
+.site-header { border-bottom: 1px solid var(--border); }
+.header-inner { display: flex; align-items: center; gap: 24px; min-height: 80px; }
+.brand { display: inline-flex; gap: 12px; align-items: center; flex-shrink: 0; color: var(--text); text-decoration: none; font-family: var(--editorial); font-size: 28px; font-weight: 700; letter-spacing: -1px; }
+.brand:hover { text-decoration: none; }
+.brand-mark { position: relative; width: 35px; height: 31px; display: inline-block; color: var(--accent); }
+.brand-mark::before, .brand-mark::after { content: ""; position: absolute; width: 25px; height: 20px; border: 2px solid currentColor; }
+.brand-mark::before { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.brand-mark::after { bottom: 0; right: 0; background: var(--bg); clip-path: polygon(0 0,100% 0,100% 80%,65% 80%,45% 100%,45% 80%,0 80%); height: 26px; }
+.site-nav { display: flex; align-self: stretch; align-items: stretch; gap: 22px; white-space: nowrap; }
+.site-nav a { display: flex; align-items: center; position: relative; color: var(--text); text-decoration: none; font-size: 14px; }
+.site-nav a:hover { color: var(--accent); }
+.site-nav a[aria-current] { color: var(--accent); font-weight: 600; }
+.site-nav a[aria-current]::after { content: ""; position: absolute; height: 2px; background: var(--accent); bottom: 0; left: 0; right: 0; }
+.header-search { display: flex; align-items: center; margin-left: auto; flex: 1 1 180px; max-width: 230px; min-width: 130px; border: 1px solid var(--border); border-radius: 3px; }
+.header-search input { width: 100%; min-width: 0; border: 0; padding: 7px 10px; background: transparent; color: var(--text); font-size: 12px; }
+.header-search button { border: 0; background: transparent; color: var(--text); padding: 7px 10px; font-size: 12px; cursor: pointer; white-space: nowrap; }
+.account-nav { display: flex; align-items: center; justify-content: flex-end; gap: 14px; font-size: 13px; flex-shrink: 0; }
+.account-nav a { color: var(--text); text-decoration: none; max-width: 9em; overflow-wrap: anywhere; }
+.account-nav a:hover { color: var(--accent); }
+.account-nav .register-link { color: var(--accent); border: 1px solid var(--accent); padding: 4px 12px; border-radius: 3px; }
+.theme-toggle { padding: 5px 0 5px 12px; border: 0; border-left: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; font-size: 12px; }
+.demo-banner { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 22px; font-size: 11px; color: var(--muted); }
+.demo-banner strong { font-weight: 500; }
+.edition-en { margin-left: 10px; font-family: Georgia, serif; font-size: 10px; letter-spacing: 1.6px; }
+.masthead { display: flex; justify-content: space-between; align-items: center; gap: 30px; padding-top: 25px; padding-bottom: 30px; position: relative; }
+.masthead::after { content: ""; position: absolute; height: 2px; left: 28px; right: 28px; bottom: 0; background: var(--text); }
+.eyebrow { margin: 0 0 12px; color: var(--muted); font-size: 12px; letter-spacing: 1px; }
+.eyebrow span { color: var(--accent); font-size: 16px; font-family: Georgia, serif; margin-right: 8px; }
+.masthead h1 { font-family: var(--editorial); font-size: clamp(32px, 3.7vw, 48px); font-weight: 700; letter-spacing: -1px; margin: 0; line-height: 1.4; }
+.button-link, .btn, .btn-secondary { border-radius: 3px; }
+.button-link { display: inline-block; background: var(--accent); color: var(--on-accent); padding: 10px 24px; text-decoration: none; white-space: nowrap; font-size: 15px; }
+.button-link:hover { text-decoration: none; filter: brightness(1.08); }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 32px; align-items: start; padding-top: 30px; padding-bottom: 40px; }
+.main-column { min-width: 0; }
+.panel { padding: 0; margin: 0 0 30px; background: transparent; border: 0; border-radius: 0; }
+.panel:last-child { margin-bottom: 0; }
+.side-column { border-left: 1px solid var(--border); padding-left: 28px; min-width: 0; }
+.side-panel { margin: 0; padding: 0 0 26px; }
+.side-panel + .side-panel { border-top: 1px solid var(--border); padding-top: 25px; }
+.side-kicker { font-size: 11px; letter-spacing: 3px; color: var(--muted); margin: 0 0 12px; }
+.side-panel h2 { font-family: var(--editorial); font-size: 27px; margin: 0 0 12px; line-height: 1.5; }
+.side-panel p { font-size: 13px; margin: 0 0 10px; }
+.side-panel .side-kicker { font-size: 11px; }
+.side-actions { display: flex; gap: 12px; margin-top: 20px; }
+.side-actions a { flex: 1; text-align: center; }
+.side-panel .rules-heading { font-size: 21px; margin-bottom: 20px; }
+.community-rules { list-style: none; margin: 0; padding: 0; counter-reset: rule; }
+.community-rules li { position: relative; counter-increment: rule; padding-left: 30px; margin-bottom: 22px; font-size: 14px; }
+.community-rules li::before { content: counter(rule, decimal-leading-zero); position: absolute; left: 0; color: var(--accent); font: 700 16px/1.6 Georgia, serif; }
+.community-rules p { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.side-directory { display: flex; justify-content: space-between; color: var(--text); text-decoration: none; margin-bottom: 8px; font-size: 14px; }
+.side-directory span { color: var(--accent); }
+.toolbar { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; border-bottom: 1px solid var(--border); padding-bottom: 18px; }
+.toolbar h2 { font-family: var(--editorial); font-size: 24px; margin: 0; }
+.toolbar .muted { font-size: 11px; }
+.thread-list { display: grid; }
+.thread { display: grid; grid-template-columns: 102px minmax(0, 1fr); gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--border); }
+.thread-index { display: flex; align-items: baseline; gap: 13px; border-right: 1px solid var(--border); align-self: start; margin-top: 1px; }
+.thread-index > span { color: var(--accent); font: 700 19px/1.6 Georgia, serif; }
+.thread-category { color: var(--text); text-decoration: none; font-size: 12px; white-space: nowrap; }
+.thread-body { min-width: 0; overflow-wrap: anywhere; }
+.thread-body h3 { font-size: 17px; line-height: 1.6; margin: 0 0 7px; font-weight: 600; }
+.thread-link { color: var(--text); text-decoration: none; }
+.thread-link:hover { color: var(--accent); }
+.thread-meta { font-size: 11px; color: var(--muted); margin: 0; line-height: 1.9; }
+.thread-meta a { color: var(--muted); }
+.thread-meta time { white-space: nowrap; }
+.spoiler-flag { color: var(--accent); }
+.spoiler-notice { color: var(--accent); font-size: 12px; margin: 12px 0; padding: 10px 14px; background: var(--notice-bg); border-left: 2px solid var(--accent); }
+.thread .spoiler-seal { position: relative; display: inline-block; margin: 9px 0 0; border: 1px solid var(--notice-border); border-top-color: var(--accent); border-bottom-color: var(--accent); padding: 5px 14px; font-size: 11px; }
+.spoiler-seal::before, .spoiler-seal::after { content: ""; position: absolute; width: 8px; top: -1px; bottom: -1px; background: radial-gradient(circle at 0 5px,var(--bg) 3px,transparent 3.6px) 0 0 / 8px 10px repeat-y; }
+.spoiler-seal::before { left: -1px; }
+.spoiler-seal::after { right: -1px; transform: rotate(180deg); }
+.spoiler-seal > span:first-child { font-weight: 600; }
+.breadcrumb { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 22px; }
+.breadcrumb a { color: var(--muted); }
+.thread-detail h1 { font-family: var(--editorial); font-size: 30px; line-height: 1.5; }
+.post-body { border-top: 1px solid var(--border); margin-top: 22px; padding-top: 22px; font-size: 16px; line-height: 2; overflow-wrap: anywhere; }
+.spoiler-gate { margin-top: 22px; }
+.spoiler-open-note { color: var(--muted); background: var(--tag-bg); padding: 10px 14px; font-size: 12px; }
+.comment-list { display: grid; gap: 20px; }
+.comment { border-bottom: 1px solid var(--border); padding: 18px 0; }
+.comment p { margin: 0 0 8px; }
+.comment-body { font-size: 14px; line-height: 1.9; overflow-wrap: anywhere; }
+.work-list { display: grid; }
+.work-item { padding: 18px 0; border-bottom: 1px solid var(--border); }
+.work-item h3 { font-size: 17px; margin: 0 0 5px; }
+.work-item h3 a { color: var(--text); text-decoration: none; }
+.work-item p { margin: 0; }
+.synopsis { font-size: 14px; line-height: 1.9; }
+.search-form { display: flex; gap: 10px; margin-top: 16px; }
+.search-form input { flex: 1; min-width: 0; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 3px; padding: 10px; }
+.search-form button { border: 0; border-radius: 3px; background: var(--accent); color: var(--on-accent); padding: 10px 18px; cursor: pointer; }
+.search-hint { font-size: 12px; }
+.pager { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-top: 22px; font-size: 12px; }
+.pager-link { border: 1px solid var(--border); padding: 6px 12px; text-decoration: none; color: var(--text); border-radius: 3px; }
+.pager-link.is-disabled { color: var(--muted); }
+.pager-status { color: var(--muted); font-size: 11px; }
+.empty-state { color: var(--muted); padding: 36px 12px; text-align: center; font-size: 13px; }
+.muted { color: var(--muted); }
+.status-panel { text-align: center; padding: 40px 0; }
+.status-code { font-size: 48px; color: var(--accent); margin: 0; }
+.site-footer { padding-bottom: 26px; }
+.site-footer > .container { padding-top: 20px; position: relative; }
+.site-footer > .container::before { content: ""; position: absolute; left: 28px; right: 28px; top: 0; height: 1px; background: var(--text); }
+.site-footer p { margin: 0 0 6px; font-size: 12px; }
+.site-footer p strong { font-family: var(--editorial); font-size: 17px; }
+.site-footer p span { padding-inline: 14px; color: var(--muted); }
+.site-footer .muted { font-size: 11px; }
+/* ---------------------------------------------------------------- 表单与操作 */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label { font-size: 14px; font-weight: 600; }
+
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="password"],
+.field select,
+.field textarea,
+.form textarea,
+.form select {
+  width: 100%;
+  padding: 9px 11px;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.field textarea,
+.form textarea { resize: vertical; }
+
+.field-error {
+  margin: 0;
+  font-size: 13px;
+  color: #b91c1c;
+}
+
+[data-theme="dark"] .field-error { color: #fca5a5; }
+
+.field-hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.field-checkbox {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.field-checkbox label { font-weight: 500; }
+.field-checkbox .field-hint { flex-basis: 100%; }
+
+.btn,
+.btn-secondary {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn {
+  background: var(--accent);
+  color: var(--on-accent);
+  border: 1px solid var(--accent);
+}
+
+.btn:hover { filter: brightness(1.08); text-decoration: none; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.btn-secondary:hover { background: var(--accent-soft); text-decoration: none; }
+
+.alert {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px solid;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.alert-ok {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.alert-error {
+  background: #fef2f2;
+  border-color: #dc2626;
+  color: #7f1d1d;
+}
+
+[data-theme="dark"] .alert-error {
+  background: #3b1414;
+  border-color: #f87171;
+  color: #fecaca;
+}
+
+.auth-panel { max-width: 520px; }
+
+.nav-form { display: inline; margin: 0; }
+
+.nav-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.nav-button:hover { text-decoration: underline; }
+
+.report-box {
+  margin-top: 14px;
+  font-size: 13px;
+}
+
+.report-box summary { cursor: pointer; color: var(--muted); }
+.report-box .form { margin-top: 10px; }
+
+.comment-form {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.login-hint { margin: 12px 0 0; }
+
+.profile-head h1 { margin-bottom: 4px; }
+
+/* ---------------------------------------------------------------- 管理后台 */
+
+.admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-item {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.admin-reason { margin: 6px 0; }
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 8px 0 0;
+}
+
+.inline-form { display: inline; margin: 0; }
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-table th { font-weight: 600; color: var(--muted); }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+.auth-panel { max-width: 520px; padding: 26px; background: var(--surface); border: 1px solid var(--border); }
+.admin-table { display: block; overflow-x: auto; }
+@media (max-width: 1120px) {
+  .header-inner { flex-wrap: wrap; gap: 16px 24px; padding-top: 16px; }
+  .site-nav { order: 4; flex: 1 0 100%; min-height: 44px; gap: 30px; }
+  .header-search { margin-left: auto; max-width: 280px; }
+  .layout { grid-template-columns: minmax(0, 1fr) 260px; gap: 26px; }
+  .side-column { padding-left: 24px; }
+  .thread { grid-template-columns: 92px minmax(0, 1fr); gap: 14px; }
+}
+@media (max-width: 800px) {
+  .container { padding-inline: 22px; }
+  .layout { grid-template-columns: minmax(0, 1fr); padding-top: 24px; }
+  .side-column { border-left: 0; border-top: 1px solid var(--border); padding: 24px 0 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+  .side-panel + .side-panel { border-top: 0; padding-top: 0; }
+  .side-panel { padding-bottom: 0; }
+  .side-panel:last-child { grid-column: 1 / -1; }
+  .masthead::after, .site-footer > .container::before { left: 22px; right: 22px; }
+  .demo-banner { align-items: flex-start; }
+  .edition-en { display: none; }
+  .masthead h1 { font-size: 38px; }
+}
+@media (max-width: 520px) {
+  body { font-size: 14px; }
+  .container { padding-inline: 20px; }
+  .header-inner { gap: 12px; padding-top: 16px; }
+  .brand { font-size: 24px; gap: 8px; }
+  .brand-mark { transform: scale(.8); transform-origin: left center; margin-right: -5px; }
+  .account-nav { margin-left: auto; gap: 10px; font-size: 12px; flex-wrap: wrap; max-width: 55%; }
+  .account-nav .register-link { padding: 2px 7px; }
+  .theme-toggle { padding-left: 9px; }
+  .header-search { order: 3; flex: 1 0 100%; max-width: none; }
+  .header-search input { font-size: 13px; padding: 8px 10px; }
+  .site-nav { order: 4; min-width: 0; justify-content: space-between; gap: 12px; min-height: 45px; }
+  .site-nav a { font-size: 13px; }
+  .demo-banner { padding-top: 18px; flex-direction: column; gap: 6px; font-size: 10px; }
+  .edition-en { display: inline; font-size: 9px; }
+  .masthead { flex-direction: column; align-items: flex-start; gap: 18px; padding-top: 22px; padding-bottom: 24px; }
+  .masthead h1 { font-size: 37px; line-height: 1.5; }
+  .masthead h1 > span { display: block; white-space: nowrap; }
+  .masthead .eyebrow { display: none; }
+  .masthead::after, .site-footer > .container::before { left: 20px; right: 20px; }
+  .button-link { font-size: 14px; padding: 8px 18px; }
+  .toolbar { padding-bottom: 12px; }
+  .toolbar h2 { font-size: 22px; }
+  .toolbar .muted { font-size: 10px; }
+  .thread { grid-template-columns: minmax(0,1fr); gap: 5px; padding: 19px 0; }
+  .thread-index { border-right: 0; gap: 10px; margin: 0; }
+  .thread-index > span { font-size: 14px; }
+  .thread-category { font-size: 11px; color: var(--muted); }
+  .thread-body h3 { font-size: 16px; margin-bottom: 6px; line-height: 1.65; }
+  .thread-meta { font-size: 10px; }
+  .thread .spoiler-seal { font-size: 10px; padding: 5px 10px; max-width: 100%; }
+  .side-column { grid-template-columns: minmax(0,1fr); }
+  .side-panel h2 { font-size: 25px; }
+  .side-panel h2 br { display: none; }
+  .side-actions { max-width: 300px; }
+  .side-panel + .side-panel { border-top: 1px solid var(--border); padding-top: 24px; }
+  .thread-detail h1 { font-size: 25px; }
+  .post-body { font-size: 15px; }
+  .auth-panel { padding: 18px; }
+  .pager { justify-content: center; }
+  .search-form { flex-wrap: wrap; }
+  .site-footer p { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }
+</style>
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="看完聊首页"><span class="brand-mark" aria-hidden="true"></span>看完聊</a>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="/" aria-current="page">全部讨论</a>
+                  <a href="/category/movie">电影</a>
+                  <a href="/category/series">电视剧</a>
+                  <a href="/category/recommend">求推荐</a>
+                  <a href="/category/chat">闲聊</a>
+              </nav>
+      <form class="header-search" action="/search" method="get" role="search">
+        <label class="visually-hidden" for="header-q">搜索作品或话题</label>
+        <input id="header-q" type="search" name="q" maxlength="60" placeholder="搜索讨论、作品…" value="">
+        <button type="submit" aria-label="搜索">搜索</button>
+      </form>
+      <div class="account-nav" aria-label="账户操作">
+                  <a href="/login">登录</a>
+          <a class="register-link" href="/register">注册</a>
+                <button type="button" class="theme-toggle" data-theme-toggle aria-label="切换深浅主题">明暗</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container demo-banner" role="note">
+    <span>散场之后 <span class="edition-en" lang="en">/ AFTER THE CREDITS</span></span>
+    <span><strong>筹备版本</strong> · 作品与部分讨论为示例，发布内容会真实保存。</span>
+  </div>
+
+      <section class="container masthead" aria-labelledby="masthead-title">
+      <div><p class="eyebrow"><span>01</span> / 放映结束，讨论开始</p><h1 id="masthead-title"><span>看完了，</span><span>话还没说完。</span></h1></div>
+      <a class="button-link" href="/publish">＋ 发起讨论</a>
+    </section>
+  
+  <div class="container layout">
+    <main id="main" class="main-column">
+            <section class="panel discussion-panel" aria-labelledby="list-title">
+  <div class="toolbar">
+    <h2 id="list-title">最近讨论</h2>
+    <span class="muted">共 2 个话题</span>
+  </div>
+
+    <div class="thread-list">
+          <article class="thread">
+        <div class="thread-index"><span aria-hidden="true">01</span><a class="thread-category" href="/category/movie">电影</a></div>
+        <div class="thread-body">
+          <h3><a class="thread-link" href="/thread/2">雨后的车站很好看</a></h3>
+          <p class="thread-meta">
+                          <a href="/title/2">《雨后的车站（示例作品）》</a>
+                                      · 示例观众乙                        · <time datetime="2026-11-12T18:40:00Z">2026-11-12</time>
+                      </p>
+                  </div>
+      </article>
+          <article class="thread">
+        <div class="thread-index"><span aria-hidden="true">02</span><a class="thread-category" href="/category/series">电视剧</a></div>
+        <div class="thread-body">
+          <h3><a class="thread-link" href="/thread/1">含剧透的讨论</a></h3>
+          <p class="thread-meta">
+                          <a href="/title/1">《风起小城（示例作品）》</a>
+                                      · 示例观众甲                        · <time datetime="2026-11-12T20:10:00Z">2026-11-12</time>
+                          · <span class="spoiler-flag">含剧透</span>
+                      </p>
+                      <p class="spoiler-notice spoiler-seal"><span>剧情封签</span> / 含剧透，进入讨论后展开<span class="visually-hidden">这段内容包含剧透，展开后可见。</span></p>
+                  </div>
+      </article>
+      </div>
+
+  </section>
+    </main>
+    <aside class="side-column" aria-label="社区信息">
+      <section class="panel side-panel">
+  <p class="side-kicker">散场 · 未完</p>
+  <h2>留一点余味，<br>给讨论。</h2>
+  <p class="muted">不必是专业影评，一句真实感受也值得分享。</p>
+  <div class="side-actions">
+          <a class="btn" href="/login">登录</a>
+      <a class="btn-secondary" href="/register">注册</a>
+      </div>
+</section>
+<section class="panel side-panel">
+  <h2 class="rules-heading">讨论之前</h2>
+  <ol class="community-rules">
+    <li><strong>允许不同的观影感受</strong><p>可以观点相左，但请保持友善与理性。</p></li>
+    <li><strong>给关键剧情留一道封签</strong><p>发布时标记剧透，让别人自主选择是否展开。</p></li>
+    <li><strong>只聊作品，不找资源</strong><p>不发布或索取影视播放、下载与资源链接。</p></li>
+  </ol>
+</section>
+<section class="panel side-panel">
+  <a class="side-directory" href="/titles">作品索引 <span aria-hidden="true">↗</span></a>
+  <p class="muted">从一部作品，找到另一场讨论。</p>
+</section>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><strong>看完聊</strong> <span>/</span> 看完一部，聊聊感受</p>
+      <p class="muted">筹备版本，内容为演示示例；不提供影视播放、下载或资源链接。</p>
+    </div>
+  </footer>
+<script>(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'kwl-theme';
+  var root = document.documentElement;
+
+  function apply(theme) {
+    root.setAttribute('data-theme', theme);
+  }
+
+  function current() {
+    var saved = null;
+    try {
+      saved = window.localStorage.getItem(STORAGE_KEY);
+    } catch (e) {
+      saved = null;
+    }
+    if (saved === 'light' || saved === 'dark') {
+      return saved;
+    }
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  }
+
+  apply(current());
+
+  var toggle = document.querySelector('[data-theme-toggle]');
+  if (!toggle) {
+    return;
+  }
+
+  toggle.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    apply(next);
+    try {
+      window.localStorage.setItem(STORAGE_KEY, next);
+    } catch (e) {
+      // Storage may be blocked; the theme still applies for this page view.
+    }
+  });
+})();
+</script></body>
+</html>

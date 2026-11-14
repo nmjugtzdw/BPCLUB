@@ -83,7 +83,7 @@ $reportLink = static function (array $report): string {
             <?php if ((int) $thread['is_spoiler'] === 1): ?>· <span class="spoiler-flag">含剧透</span><?php endif; ?>
           </p>
           <p class="admin-reason"><strong><?= App\View::e((string) $thread['title']) ?></strong></p>
-          <p class="admin-reason"><?= nl2br(App\View::e(mb_substr((string) $thread['body'], 0, 400))) ?></p>
+          <p class="admin-reason"><?= nl2br(App\View::e((string) $thread['body'])) ?></p>
           <p class="admin-actions">
             <form class="inline-form" method="post" action="/admin/thread/<?= (int) $thread['id'] ?>">
               <input type="hidden" name="csrf" value="<?= App\View::e($csrfToken) ?>">
@@ -119,7 +119,7 @@ $reportLink = static function (array $report): string {
             · 在 <a href="/thread/<?= (int) $comment['thread_id'] ?>"><?= App\View::e(mb_substr((string) $comment['thread_title'], 0, 40)) ?></a>
             · <time datetime="<?= App\View::e(str_replace(' ', 'T', (string) $comment['created_at'])) ?>Z"><?= App\View::e(substr((string) $comment['created_at'], 0, 10)) ?></time>
           </p>
-          <p class="admin-reason"><?= nl2br(App\View::e(mb_substr((string) $comment['body'], 0, 400))) ?></p>
+          <p class="admin-reason"><?= nl2br(App\View::e((string) $comment['body'])) ?></p>
           <p class="admin-actions">
             <form class="inline-form" method="post" action="/admin/comment/<?= (int) $comment['id'] ?>">
               <input type="hidden" name="csrf" value="<?= App\View::e($csrfToken) ?>">

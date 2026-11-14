@@ -1,28 +1,26 @@
 <section class="panel side-panel">
-  <h2>欢迎来到看完聊</h2>
-  <p>一部电影，一场讨论。这里想留给每个人说出观影感受的空间。</p>
-  <p class="muted">当前是筹备版本，讨论内容均为虚构示例。</p>
+  <p class="side-kicker">散场 · 未完</p>
+  <h2>留一点余味，<br>给讨论。</h2>
+  <p class="muted">不必是专业影评，一句真实感受也值得分享。</p>
+  <div class="side-actions">
+    <?php if ($authUser !== null): ?>
+      <a class="btn" href="/publish">发起讨论</a>
+      <a class="btn-secondary" href="/user/<?= (int) $authUser['id'] ?>">我的主页</a>
+    <?php else: ?>
+      <a class="btn" href="/login">登录</a>
+      <a class="btn-secondary" href="/register">注册</a>
+    <?php endif; ?>
+  </div>
 </section>
 <section class="panel side-panel">
-  <h2>聊得开心，也要注意</h2>
-  <ul>
-    <li>尊重不同观点</li>
-    <li>讨论剧情时先提醒剧透</li>
-    <li>分享真实观影感受</li>
-  </ul>
-  <p class="muted">标记为剧透的内容，默认只显示提示，需要你主动点开才看得到。</p>
+  <h2 class="rules-heading">讨论之前</h2>
+  <ol class="community-rules">
+    <li><strong>允许不同的观影感受</strong><p>可以观点相左，但请保持友善与理性。</p></li>
+    <li><strong>给关键剧情留一道封签</strong><p>发布时标记剧透，让别人自主选择是否展开。</p></li>
+    <li><strong>只聊作品，不找资源</strong><p>不发布或索取影视播放、下载与资源链接。</p></li>
+  </ol>
 </section>
 <section class="panel side-panel">
-  <h2>四类话题</h2>
-  <p>
-    <a href="/category/movie">电影</a> ·
-    <a href="/category/series">电视剧</a> ·
-    <a href="/category/recommend">求推荐</a> ·
-    <a href="/category/chat">闲聊</a>
-  </p>
-  <p class="muted">点分类只看这一类；<a href="/search">搜索</a>可以按作品名或标题找。</p>
-</section>
-<section class="panel side-panel">
-  <h2>还在筹备</h2>
-  <p class="muted">注册、发帖、评论和举报都还没开放。现在能看，不能写。</p>
+  <a class="side-directory" href="/titles">作品索引 <span aria-hidden="true">↗</span></a>
+  <p class="muted">从一部作品，找到另一场讨论。</p>
 </section>

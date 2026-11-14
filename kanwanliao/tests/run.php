@@ -556,6 +556,31 @@ check('发布入口已可用', str_contains($home->body, 'href="/publish"'));
 check('登录入口已可用', str_contains($home->body, 'href="/login"'));
 check('未登录时导航显示注册入口', str_contains($home->body, 'href="/register"'));
 check('首页给出帖子总数', str_contains($home->body, '2 个话题'));
+check('首页显示公开讨论关联的作品区', str_contains($home->body, '近期讨论作品') && str_contains($home->body, 'href="/title/2"'));
+check('作品配图明确标识为非官方', str_contains($home->body, 'AI 设计配图，非官方海报'));
+check('作品区不含剧透标题或正文', !str_contains($home->body, FakeReader::SPOILER_TITLE) && !str_contains($home->body, FakeReader::SPOILER_BODY));
+$featureRows = [];
+foreach ([1, 1, 2, 3, 4, 5] as $featureId) {
+    $featureRows[] = ['id' => $featureId, 'title_id' => $featureId, 'work_name' => $featureId === 1 ? '<script>示例</script>' : '作品' . $featureId,
+        'work_type' => 'movie', 'title' => '安全标题', 'category' => 'movie', 'category_name' => '电影', 'is_spoiler' => false,
+        'created_at' => '2026-11-12 00:00:00', 'excerpt' => ''];
+}
+$featureView = View::render($root, 'home', ['threads' => $featureRows, 'pager' => new Pager(1, 10, 6), 'basePath' => '/', 'activeCategory' => null, 'navKey' => 'home']);
+preg_match('/<section class="featured-works"[\s\S]*?<\/section>/', $featureView, $featureSection);
+check('近期作品去重并最多展示四部', substr_count($featureSection[0] ?? '', 'class="featured-work"') === 4);
+check('近期作品标题正确转义', str_contains($featureSection[0] ?? '', '&lt;script&gt;示例&lt;/script&gt;') && !str_contains($featureSection[0] ?? '', '<script>'));
+$featureEmpty = View::render($root, 'home', ['threads' => [], 'pager' => new Pager(1, 10, 0), 'basePath' => '/', 'activeCategory' => null, 'navKey' => 'home']);
+check('没有关联作品时不显示作品区', !str_contains($featureEmpty, 'class="featured-works"'));
+$featurePageTwo = View::render($root, 'home', ['threads' => $featureRows, 'pager' => new Pager(2, 1, 6), 'basePath' => '/', 'activeCategory' => null, 'navKey' => 'home']);
+check('非首页第一页不显示作品区', !str_contains($featurePageTwo, 'class="featured-works"'));
+check('论坛分类仅保留顶部一套导航', !str_contains($home->body, 'class="category-rail"') && substr_count($home->body, 'aria-label="主导航"') === 1);
+check('顶部搜索使用现有搜索路由', str_contains($home->body, 'class="header-search" action="/search" method="get"'));
+check('首页列表使用编号分类与剧情封签', str_contains($home->body, 'class="thread-index"') && str_contains($home->body, 'spoiler-seal'));
+check('首页展示获确认的刊物式主标题', str_contains($home->body, '<span>看完了，</span><span>话还没说完。</span>'));
+check('样式链接带内容指纹防止新旧布局混用', preg_match('/app\.css\?v=[a-f0-9]{12}/', $home->body) === 1);
+check('侧栏没有虚构活跃人数与评分', !str_contains($home->body, '用户数目') && !str_contains($home->body, '活跃榜'));
+check('首页不再显示已过时的功能未开放提示', !str_contains($home->body, '发布功能筹备中') && !str_contains($home->body, '现在能看，不能写'));
+check('剧透封签与标题处于同一标题行', preg_match('/class="thread-heading">[\s\S]*?class="spoiler-notice spoiler-seal"[\s\S]*?<\/div>/', $home->body) === 1);
 
 // 无仓储时必须 503，不能把「没有服务器」说成「没有内容」
 $homeNoDb = (new HomeController($config, $logger, $root, null))->index(request('/'), []);
@@ -594,6 +619,8 @@ check('未知分类返回 404', $badCat->status === 404);
 // --- P03 作品页 ---
 $titlePage = (new TitleController($config, $logger, $root, $fake))->show(request('/title/1'), ['id' => '1']);
 check('作品页返回 200', $titlePage->status === 200);
+check('作品页配图标注为非官方', str_contains($titlePage->body, 'AI 配图 · 非官方海报'));
+check('关联讨论展示配图说明', str_contains($home->body, 'class="thread-art"') && str_contains($home->body, 'AI 配图'));
 check('作品页列出关联讨论且不含剧透正文', str_contains($titlePage->body, '相关讨论') && !str_contains($titlePage->body, $secret));
 $missingTitle = (new TitleController($config, $logger, $root, $fake))->show(request('/title/999'), ['id' => '999']);
 check('不存在的作品返回 404', $missingTitle->status === 404);
@@ -820,11 +847,12 @@ $published = (new App\Controllers\PublishController($config, $logger, $root, $fa
     ]),
     []
 );
-check('登录后发帖成功并跳到帖子页', $published->status === 303 && str_starts_with((string) ($published->headers['Location'] ?? ''), '/thread/'));
+check('登录后发帖进入待审并返回首页', $published->status === 303 && ($published->headers['Location'] ?? '') === '/');
 check('发帖写入作者与剧透标记', (static function () use ($ctx): bool {
     $row = array_values($ctx['writer']->threads)[0] ?? null;
-    return $row !== null && $row['author_id'] === 1 && $row['is_spoiler'] === true && $row['status'] === 'visible';
+    return $row !== null && $row['author_id'] === 1 && $row['is_spoiler'] === true && $row['status'] === 'pending';
 })());
+check('普通账号发帖提示待人工审核', str_contains((string) $ctx['session']->get('flash'), '需要管理员看过'));
 
 $ctx = p04Context();
 $ctx['accounts']->seed('发帖人', 'poster@example.com', 'Passw0rd1');
@@ -875,8 +903,9 @@ $comment = (new App\Controllers\CommentController($config, $logger, $root, $fake
 check('登录后评论成功并回到评论区', $comment->status === 303 && str_contains((string) ($comment->headers['Location'] ?? ''), '#comments'));
 check('评论写入正确帖子与作者', (static function () use ($ctx, $dummyThread): bool {
     $row = array_values($ctx['writer']->comments)[0] ?? null;
-    return $row !== null && $row['thread_id'] === $dummyThread && $row['author_id'] === 1 && $row['status'] === 'visible';
+    return $row !== null && $row['thread_id'] === $dummyThread && $row['author_id'] === 1 && $row['status'] === 'pending';
 })());
+check('普通账号评论提示待人工审核', str_contains((string) $ctx['session']->get('flash'), '需要管理员看过'));
 
 $ctx = p04Context();
 $ctx['accounts']->seed('评论人', 'commenter@example.com', 'Passw0rd1');
@@ -1050,6 +1079,19 @@ check(
     '评论举报链接指向所属帖子',
     str_contains($adminWithCommentReport->body, '/thread/' . $commentedThread . '#comments')
 );
+
+require_once $root . '/app/TrendingCandidates.php';
+$sample = json_encode(['results' => [
+    ['id' => 123, 'adult' => false, 'title' => '示例电影', 'release_date' => '2025-01-01', 'overview' => '不应复制的剧情'],
+    ['id' => 123, 'adult' => false, 'title' => '重复', 'release_date' => '2025-01-01'],
+    ['id' => 124, 'adult' => true, 'title' => '成人内容'],
+    ['id' => 125, 'title' => '缺少成人标识'],
+]], JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
+$candidates = App\TrendingCandidates::parse($sample, 'movie');
+check('热门候选去重并保守排除成人或缺少标识', count($candidates) === 1 && $candidates[0]['source_id'] === 123);
+check('热门候选只含待审元信息、不含剧情', $candidates[0]['review_status'] === 'pending' && !isset($candidates[0]['overview']));
+check('热门接口格式错误明确失败', throwsRuntime(static fn () => App\TrendingCandidates::parse('{', 'movie')));
+check('热门接口类型不在白名单时失败', throwsRuntime(static fn () => App\TrendingCandidates::parse($sample, 'other')));
 
 echo PHP_EOL . 'RESULT: ' . $passed . ' passed, ' . $failed . ' failed' . PHP_EOL;
 exit($failed === 0 ? 0 : 1);

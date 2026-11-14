@@ -13,9 +13,7 @@ use Throwable;
 /**
  * 发布新帖。
  *
- * 可见性策略（明确定义并测试）：普通账号发布后立即可见（先发布后审核）；
- * 受限账号发布的内容进入待审核，管理员放行后才公开。理由是最先把「有人愿意
- * 发第一帖」跑通，同时保留对受限账号的强制前置审核。
+ * 所有新帖先进入待审，管理员通过后才公开。
  */
 final class PublishController extends ForumController
 {
@@ -110,7 +108,7 @@ final class PublishController extends ForumController
             ]);
         }
 
-        $status = $services->auth->isRestricted() ? 'pending' : 'visible';
+        $status = 'pending';
         try {
             $id = $services->writer->createThread(
                 $userId,
@@ -127,7 +125,7 @@ final class PublishController extends ForumController
         }
 
         if ($status === 'pending') {
-            $this->flash('ok', '已提交，因为账号状态受限，这条讨论需要管理员看过之后才会公开。');
+            $this->flash('ok', '已提交，这条讨论需要管理员看过之后才会公开。');
             return Response::redirect('/');
         }
 

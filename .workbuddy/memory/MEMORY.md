@@ -24,9 +24,9 @@
 
 2026-11-13 22:30 用户确认技术路线（PHP 8.2 + MySQL），新工程 `kanwanliao/` 落地，**P01 + P02 已开工**。**23:10 云端已上线**：`https://kwl.zzzmxxkj.com/` 不再是宝塔默认页，跑的是本项目首页。**23:00 数据库已打通**：隔离库 `kanwanliao_dev` + 专用非 root 账号，迁移 up / down / 重建全部实测通过，`/health` 的 `database` 已从 `not_configured` 变 `ok`（PHP-FPM 真实连库）。
 
-**2026-11-14 02:05 状态：P00–P06 全部完成并上线，功能闭环可用**（注册/登录/退出、发帖、评论、举报、用户主页、管理后台审核与处置）。`tests/run.php` **122/122**。权限边界（未登录 303 / 普通用户 403 / 管理员 200）、CSRF、限流、剧透防护、审计日志均已线上实测；备份与恢复演练通过；可访问性 7 页 × 桌面 1440 / 移动 375 × 浅深主题共 **28 次加载、798 处文本对比度 0 失败**。`/health` 的 `stage` 为 `P06`。**未完成**：独立审计、用户签收、品牌名确认、跨浏览器（Firefox/Safari/微信）实测、业务合规（用户协议/隐私/素材许可/备案）、找回密码、Git 仍未 init。
+**2026-11-14 03:00 状态：P00–P06 全部完成并上线，功能闭环可用，UI 已按「散场以后」报纸式设计稿重做并部署**（注册/登录/退出、发帖、评论、举报、用户主页、管理后台审核与处置）。`tests/run.php` **129/129**。权限边界（未登录 303 / 普通用户 403 / 管理员 200）、CSRF、限流、剧透防护、审计日志均已线上实测；备份与恢复演练通过；线上 UI 复测 5 页 × 桌面 1440 / 移动 375 × 浅深主题共 10 个用例，**493 处文本对比度 0 失败**、溢出 0、CSP 0、无标签 0、焦点不可见 0、缺 alt 0。`/health` 的 `stage` 为 `P06`。**未完成**：独立审计、用户签收、品牌名确认、跨浏览器（Firefox/Safari/微信）实测、业务合规（用户协议/隐私/素材许可/备案）、找回密码。
 
-**审核策略（实现前已定并测试）**：先发布后审核 —— `active` 账号内容直接 `visible`；`restricted` 账号内容进 `pending` 待审；`disabled` 不能登录。站内**没有隐藏的默认管理员**，需要时按运维手册 §11 用一条 SQL 给已注册账号授权。
+**审核策略已于 2026-11-14 03:15 改为「全部先审后发」**（`PublishController` / `CommentController` 硬编码 `$status = 'pending'`，不再按 `isRestricted()` 区分）。旧策略「先发布后审核（active → visible）」**已废弃**，别再按它判断行为或写文案。直接后果：**任何新帖、新评论都不会立刻公开，必须有管理员在后台放行**；线上必须有可用 admin 账号，否则内容永久卡在待审。站内**没有隐藏的默认管理员**，需要时按运维手册 §11 用一条 SQL 给已注册账号授权。2026-11-14 03:17 线上已存在管理账号 `dl20052006`（id 8，`role=admin` `status=active`）。
 
 需求真源是 `docs/影视论坛-项目白皮书与总体方案.md`、`分阶段实施与任务清单.md`、`审计与验收方案.md`、`P00-现状核查与隔离方案.md`、`影视论坛-效果图说明.md`；`docs/` 下 V1/V2/V3 文档只作历史追溯，**不作需求依据**。旧 V2 的 42 条单测、旧静态部署、旧云端页面**一律不能当影视论坛验收证据**。
 
@@ -40,8 +40,9 @@
 - 新站证书 `CN=kwl.zzzmxxkj.com`（2026-11-13→2027-02-11），**http 301 强制 https**，所有验证必须走 https（用 http 测会拿到 301 误判失败）。
 - **旧站 `bp.zzzmxxkj.com` 目录与 vhost 均已不存在**，不要再往那个域名传东西。
 - 服务器：nginx 1.30.6；PHP CLI 默认 **7.0.33**（跑本项目会 Parse error，必须用 `/www/server/php/82/bin/php`）；宝塔装 70/74/**82**；MySQL **5.7.44**（已 EOL，不得为本项目升级共享实例）；Node 18.19.1；磁盘 36G 可用；`/www/wwwroot` 下 20 多个站点目录，**绝不碰其它站点**。
-- 本机：Node 22.22.2 / npm 10.9.7，PHP 用便携版 `kanwanliao/.runtime/php82/php.exe`；**本机无 MySQL**；项目**仍不是 Git 仓库**。
+- 本机：Node 22.22.2 / npm 10.9.7，PHP 用便携版 `kanwanliao/.runtime/php82/php.exe`；**本机无 MySQL**；**项目已是 Git 仓库**（`main...origin/main`，唯一提交 `300f91c =feat-initial-P00-P06`，工作区有未提交改动）。文档里「仍不是 Git 仓库」的说法已过时，别再照抄。
 - **本机 Chrome 访问 `*.zzzmxxkj.com` 目前直连即可**（2026-11-14 01:40 实测：`netstat` 无 9776 监听、`curl -x 127.0.0.1:9776` 返回 000、直连 200）。代理 `127.0.0.1:9776` 曾经是必需的，现在**只在需要时**用环境变量 `KWL_PROXY=http://127.0.0.1:9776` 打开；四个工具（`probe.js` / `cdp-check.js` / `contrast-audit.js` / `p06-audit.js`）已改为「有 `KWL_PROXY` 才加 `--proxy-server`」。注意环境变量 `https_proxy` 对 Chrome 无效。
+  - **教训（2026-11-14 02:57 又踩一次）**：`cdp-check.js` 曾漏改、仍硬编码 9776，截图落到 Chrome 错误页，还在错误页上统计出「2 张图片缺 alt」的假结论。**改这类工具必须四个一起改，并且改完真要跑一次看 `location.host`。**
 - **★ 审计/对比度脚本必须断言「真的到达了目标站点」**：Chrome 冷启动前几秒导航会落到 `chrome-error://chromewebdata/`，错误页照样能跑 DOM 统计，于是产出 `checked: 10 + failures: []` / `溢出 0 违规 0` 的**假通过**（本轮已两次踩到）。判据是 `location.host === 'kwl.zzzmxxkj.com'`，未到达就 `throw` 作废本次结果，并在报告里输出 `reachable` / `navAttempts` / `onOrigin`。`goto()` 内要重试导航 5 次并 `sleep` 后复查 `location.href`，不能只发一次 `Page.navigate` 就当到达。
 - 新站 `.user.ini` 带 immutable `i` 属性，`chown -R` 会 `Operation not permitted`；不手写 vhost 主配置（面板重建会覆盖，改前备份 `.bak-<时间戳>`）；宝塔 nginx 不走 systemd，**不用 `systemctl reload nginx`**，用 `sudo /www/server/nginx/sbin/nginx -s reload`。
 - 服务器 MySQL root 密码已于 2026-11-13 由用户提供并实测可连（MySQL 5.7.44，utf8mb4）。**已建隔离库 `kanwanliao_dev` + 专用账号 `kanwanliao_dev`@127.0.0.1/localhost，非 root，权限仅本库**；实测该账号看不到其它库、读 `mysql.user` 报 1142、建库报 1044。**密码只落服务器 `.env`（`www:www` `600`），绝不写进仓库任何文件或文档。** 宝塔「数据库」页也能看到该库。

@@ -84,10 +84,13 @@ function connect(wsUrl) {
 }
 
 (async () => {
+  // 代理可选：本机曾必须走 127.0.0.1:9776，2026-11-14 起已可直连。
+  // 只有显式设置 KWL_PROXY 时才挂代理，否则直连（写了错代理会拿到 Chrome 错误页）。
+  const proxyArgs = process.env.KWL_PROXY ? [`--proxy-server=${process.env.KWL_PROXY}`] : [];
   const chrome = spawn(CHROME, [
     '--headless=new',
     '--disable-gpu',
-    '--proxy-server=http://127.0.0.1:9776',
+    ...proxyArgs,
     '--no-sandbox',
     '--no-first-run',
     '--no-default-browser-check',
@@ -123,6 +126,25 @@ function connect(wsUrl) {
 
     await cdp.send('Page.navigate', { url });
     await sleep(2500);
+
+    // ★ 必须断言真的到达了目标站点。Chrome 冷启动前几秒、或代理不可用时，
+    // 页面会停在 chrome-error://chromewebdata/，错误页同样能跑 DOM 统计，
+    // 于是产出「溢出 0 / 无问题」的假通过（本轮已多次踩到）。未到达就作废。
+    const expectedHost = new URL(url).host;
+    let landed = null;
+    for (let i = 0; i < 5; i++) {
+      const state = await cdp.send('Runtime.evaluate', {
+        expression: '({ href: location.href, host: location.host, ready: document.readyState })',
+        returnByValue: true,
+      });
+      landed = state.result.value;
+      if (landed && landed.host === expectedHost) break;
+      await sleep(1200);
+      if (i < 4) await cdp.send('Page.navigate', { url });
+    }
+    if (!landed || landed.host !== expectedHost) {
+      throw new Error(`未到达 ${expectedHost}，实际停在 ${landed ? landed.href : 'unknown'}；本次结果作废`);
+    }
 
     const expr = `(() => {
       const de = document.documentElement;

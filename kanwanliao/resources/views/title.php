@@ -10,6 +10,9 @@ $typeName = ($title['work_type'] ?? '') === 'movie' ? '电影' : '电视剧';
 </nav>
 
 <section class="panel title-detail">
+  <div class="title-overview">
+  <div class="title-artwork"><div class="featured-cover cover-<?= (((int) $title['id'] - 1) % 4) + 1 ?>" aria-hidden="true"><span>看完聊 / 作品</span><span>AFTER<br>THE CREDITS</span></div><span>AI 配图 · 非官方海报</span></div>
+  <div class="title-information">
   <h1><?= App\View::e((string) $title['name']) ?></h1>
   <p class="thread-meta">
     <?= App\View::e($typeName) ?>
@@ -23,6 +26,8 @@ $typeName = ($title['work_type'] ?? '') === 'movie' ? '电影' : '电视剧';
   <?php if (!empty($title['synopsis'])): ?>
     <p class="synopsis"><?= nl2br(App\View::e((string) $title['synopsis'])) ?></p>
   <?php endif; ?>
+  </div>
+  </div>
 </section>
 
 <section class="panel" aria-labelledby="title-threads-title">

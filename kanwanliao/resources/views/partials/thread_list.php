@@ -9,11 +9,19 @@ if ($threads === []):
   <p class="empty-state">这里还没有讨论。等有人发出第一篇，就会出现在这里。</p>
 <?php else: ?>
   <div class="thread-list">
-    <?php foreach ($threads as $thread): ?>
+    <?php $rowNumber = 0; foreach ($threads as $thread): $rowNumber++; ?>
       <article class="thread">
-        <a class="tag" href="/category/<?= App\View::e((string) $thread['category']) ?>"><?= App\View::e((string) $thread['category_name']) ?></a>
+        <div class="thread-index"><span aria-hidden="true"><?= str_pad((string) $rowNumber, 2, '0', STR_PAD_LEFT) ?></span><a class="thread-category" href="/category/<?= App\View::e((string) $thread['category']) ?>"><?= App\View::e((string) $thread['category_name']) ?></a></div>
         <div class="thread-body">
-          <h3><a class="thread-link" href="/thread/<?= (int) $thread['id'] ?>"><?= App\View::e((string) $thread['title']) ?></a></h3>
+          <?php if (!empty($thread['work_name']) && (int) ($thread['title_id'] ?? 0) > 0): ?>
+            <div class="thread-art"><div class="thread-art-image cover-<?= (((int) $thread['title_id'] - 1) % 4) + 1 ?>" aria-hidden="true"></div><span>AI 配图</span></div>
+          <?php endif; ?>
+          <div class="thread-heading">
+            <h3><a class="thread-link" href="/thread/<?= (int) $thread['id'] ?>"><?= App\View::e((string) $thread['title']) ?></a></h3>
+            <?php if (!empty($thread['is_spoiler'])): ?>
+              <span class="spoiler-notice spoiler-seal"><span>剧情封签</span> · 含剧透<span class="visually-hidden"><?= App\View::e((string) $thread['excerpt']) ?></span></span>
+            <?php endif; ?>
+          </div>
           <p class="thread-meta">
             <?php if (!empty($thread['work_name'])): ?>
               <a href="/title/<?= (int) $thread['title_id'] ?>">《<?= App\View::e((string) $thread['work_name']) ?>》</a>
@@ -24,15 +32,7 @@ if ($threads === []):
               · <?= App\View::e((string) $thread['author_name']) ?>
             <?php endif; ?>
             · <time datetime="<?= App\View::e(str_replace(' ', 'T', (string) $thread['created_at'])) ?>Z"><?= App\View::e(substr((string) $thread['created_at'], 0, 10)) ?></time>
-            <?php if (!empty($thread['is_spoiler'])): ?>
-              · <span class="spoiler-flag">含剧透</span>
-            <?php endif; ?>
           </p>
-          <?php if (!empty($thread['is_spoiler'])): ?>
-            <p class="spoiler-notice"><?= App\View::e((string) $thread['excerpt']) ?></p>
-          <?php else: ?>
-            <p class="excerpt"><?= App\View::e((string) $thread['excerpt']) ?></p>
-          <?php endif; ?>
         </div>
       </article>
     <?php endforeach; ?>

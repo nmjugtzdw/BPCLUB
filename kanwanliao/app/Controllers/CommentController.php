@@ -59,7 +59,7 @@ final class CommentController extends ForumController
             return Response::redirect('/thread/' . $threadId . '#comments');
         }
 
-        $status = $services->auth->isRestricted() ? 'pending' : 'visible';
+        $status = 'pending';
         try {
             $services->writer->createComment($threadId, $userId, $body, $isSpoiler, $status);
         } catch (Throwable $e) {
@@ -70,7 +70,7 @@ final class CommentController extends ForumController
         $this->flash(
             'ok',
             $status === 'pending'
-                ? '已提交，因为账号状态受限，这条评论需要管理员看过之后才会公开。'
+                ? '已提交，这条评论需要管理员看过之后才会公开。'
                 : '评论已发布。'
         );
         return Response::redirect('/thread/' . $threadId . '#comments');
